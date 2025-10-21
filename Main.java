@@ -1,120 +1,125 @@
+package belajar1;
 
-package menurestaurant;
-
-// Class Menu Input Mankanan dan Minuman
-class Menu {
-    String name; // 
-    double price;
-    String category;
-    
-    public Menu(String name, double price, String category) {
-        this.name = name; // Nama Produk
-        this.price = price; // Harga
-        this.category = category;// Makanan/Minuman
-    }
-    
-    public String getMenuInfo(){
-        return name + "- Rp" + price;
-    }  
-}
-//Class Utama Main Daftar Menu Makanana dan Minuman
 public class Main {
+    String[] namaMenu = {
+        "Iga Bakar", "Bebek Goreng", "Sate Kambing", "Ayam Bakar",
+        "Lemon Tea", "Jus Jeruk", "Kopi Hitam", "Air Mineral"
+    };
+    int[] hargaMenu = {
+        50000, 35000, 45000, 30000,
+        15000, 25000, 18000, 8000
+    };
+    String[] kategoriMenu = {
+        "Makanan", "Makanan", "Makanan", "Makanan",
+        "Minuman", "Minuman", "Minuman", "Minuman"
+    };
 
-    public static void main(String[] args) {
-       // Daftar Menu Makanan
-        Menu[] foodMenu = {
-            new Menu("Nasi Goreng", 15000, "Makanan"),
-            new Menu("Belut Goreng", 20000, "Makanan"),
-            new Menu("Sate Ayam", 17000, "Makanan"),
-            new Menu("Bakso", 65000, "Makanan")
-        };
+    // ====================== TAMPILKAN MENU ======================
+    public void tampilkanMenu() {
+        System.out.println("============= DAFTAR MENU RESTORAN YUNIAS =============");
+        System.out.printf("%-3s %-10s %-20s %-10s%n", "No", "Kategori", "Nama Menu", "Harga");
 
-        // Daftar Menu Minuman
-        Menu[] drinkMenu = {
-            new Menu("Teh Manis", 8000, "Minuman"),
-            new Menu("Minumana Legen", 10000, "Minuman"),
-            new Menu("Jus Jeruk", 30000, "Minuman"),
-            new Menu("Es Kelapa", 10000, "Minuman")
-        };
-
-        // Menampilkan Daftar Menu Makanan dan Minuman
-        System.out.println("=== Daftar Menu ===");
-        System.out.println("\nMakanan:");
-        for (Menu food : foodMenu) {
-            System.out.println(food.getMenuInfo());
-        }
-        System.out.println("\nMinuman:");
-        for (Menu drink : drinkMenu) {
-            System.out.println(drink.getMenuInfo());
-        }
-        // Input Pemesanan Manual 
-        Menu orderedFood = foodMenu[3]; //Bakso > 100K
-        Menu orderedDrink = drinkMenu[2]; //Jus Jeruk > 50K pasti diskon
-        int quantityFood = 2; // Memesan 2 porsi Nasi Goreng
-        int quantityDrink = 2; // Memesan 2 Jus Jeruk
-
-          // Menghitung Total  Pesanan dengan Pajak, Diskon, dan Penawaran Khusus
-        double[] costs = calculateTotal(orderedFood, orderedDrink, quantityFood, quantityDrink);
-
-        // Mencetak Struk Pemesanan
-        printReceipt(orderedFood, orderedDrink, quantityFood, quantityDrink, costs);
+        // Tanpa perulangan, manual tampilkan
+        System.out.printf("%-3d %-10s %-20s Rp%-10d%n", 1, kategoriMenu[0], namaMenu[0], hargaMenu[0]);
+        System.out.printf("%-3d %-10s %-20s Rp%-10d%n", 2, kategoriMenu[1], namaMenu[1], hargaMenu[1]);
+        System.out.printf("%-3d %-10s %-20s Rp%-10d%n", 3, kategoriMenu[2], namaMenu[2], hargaMenu[2]);
+        System.out.printf("%-3d %-10s %-20s Rp%-10d%n", 4, kategoriMenu[3], namaMenu[3], hargaMenu[3]);
+        System.out.printf("%-3d %-10s %-20s Rp%-10d%n", 5, kategoriMenu[4], namaMenu[4], hargaMenu[4]);
+        System.out.printf("%-3d %-10s %-20s Rp%-10d%n", 6, kategoriMenu[5], namaMenu[5], hargaMenu[5]);
+        System.out.printf("%-3d %-10s %-20s Rp%-10d%n", 7, kategoriMenu[6], namaMenu[6], hargaMenu[6]);
+        System.out.printf("%-3d %-10s %-20s Rp%-10d%n", 8, kategoriMenu[7], namaMenu[7], hargaMenu[7]);
+        System.out.println("=======================================================");
     }
 
-    // Method Menghitung Total Biaya Pesanan dengan Pajak, Diskon, dan Penawaran
-    public static double[] calculateTotal(Menu food, Menu drink, int qtyFood, int qtyDrink) {
-        double totalFoodCost = food.price * qtyFood;
-        double totalDrinkCost = drink.price * qtyDrink;
+    // ====================== CETAK STRUK PEMBAYARAN ======================
+    public void cetakStruk(String[] pesananNama, int[] pesananJumlah, int jumlahMenu) {
+        int total = 0;
 
-        // Total Biaya Awal
-        double subtotal = totalFoodCost + totalDrinkCost;
+        System.out.println("\n==================== STRUK PEMBAYARAN ====================");
+        System.out.printf("%-20s %-10s %-10s%n", "Nama Menu", "Jumlah", "Subtotal");
 
-        // Pajak 10%
-        double tax = 0.1 * subtotal;
+        // Proses maksimal 4 pesanan (tanpa perulangan)
+        if (jumlahMenu > 0) total += hitungItem(pesananNama[0], pesananJumlah[0]);
+        if (jumlahMenu > 1) total += hitungItem(pesananNama[1], pesananJumlah[1]);
+        if (jumlahMenu > 2) total += hitungItem(pesananNama[2], pesananJumlah[2]);
+        if (jumlahMenu > 3) total += hitungItem(pesananNama[3], pesananJumlah[3]);
 
-        // Biaya pelayanan
-        double serviceCharge = 20000;
+        double pajak = total * 0.10;
+        int biayaPelayanan = 20000;
+        double totalAkhir = total + pajak + biayaPelayanan;
 
-        // Diskon 10% jika total biaya melebihi Rp 100.000
-        double discount = 0;
-        if (subtotal > 100000) {
-            discount = 0.1 * subtotal;
+        // Diskon 10% jika total > 100.000
+        if (total > 100000) {
+            double diskon = totalAkhir * 0.10;
+            totalAkhir -= diskon;
+            System.out.printf("\nDiskon 10%%     : -Rp%.0f", diskon);
         }
 
-        // Penawaran Beli Satu Gratis Satu untuk Minuman 
-        double drinkOffer = 0;
-        if (subtotal > 50000 && qtyDrink >= 2) {
-            drinkOffer = drink.price; // Harga satu minuman gratis
+        // Promo minuman buy 1 get 1 jika total > 50.000
+        if (total > 50000) {
+            System.out.println("\nPromo Buy 1 Get 1 untuk minuman diterapkan!");
         }
 
-        // Menghitung Total akhir dengan Pajak, Biaya pelayanan, Diskon, dan Penawaran
-        double total = subtotal + tax + serviceCharge - discount - drinkOffer;
-
-        return new double[] {subtotal, tax, serviceCharge, discount, drinkOffer, total};
+        // Cetak ringkasan
+        System.out.printf("\nTotal Pesanan : Rp%d%n", total);
+        System.out.printf("Pajak (10%%)   : Rp%.0f%n", pajak);
+        System.out.printf("Pelayanan     : Rp%d%n", biayaPelayanan);
+        System.out.println("=========================================================");
+        System.out.printf("TOTAL BAYAR   : Rp%.0f%n", totalAkhir);
+        System.out.println("=========================================================");
     }
 
-      // Method Mencetak Struk Pesanan
-    public static void printReceipt(Menu food, Menu drink, int qtyFood, int qtyDrink, double[] costs) {
-        System.out.println("\n=== Struk Pesanan ===");
-        System.out.println("Pesanan:");
-        System.out.println(food.name + " x " + qtyFood + " - Harga per item: Rp." + (int) food.price + " - Total: Rp." + (int)(food.price * qtyFood));
-        System.out.println(drink.name + " x " + qtyDrink + " - Harga per item: Rp." + (int) drink.price + " - Total: Rp." + (int)(drink.price * qtyDrink));
-        
-        System.out.println("\nSubtotal: Rp." + (int) costs[0]);
-        System.out.println("Pajak (10%): Rp." + (int) costs[1]);
-        System.out.println("Biaya Pelayanan: Rp." + (int) costs[2]);
-        
-        // Diskon
-        if (costs[3] > 0) {
-            System.out.println("Diskon (10%): -Rp." + (int) costs[3]);
+    // ====================== HITUNG ITEM PESANAN ======================
+    private int hitungItem(String nama, int jumlah) {
+        int harga = 0;
+
+        if (nama == null) return 0;
+
+        // Gunakan if-else (tanpa perulangan)
+        if (nama.equalsIgnoreCase("Iga Bakar")) harga = hargaMenu[0];
+        else if (nama.equalsIgnoreCase("Bebek Goreng")) harga = hargaMenu[1];
+        else if (nama.equalsIgnoreCase("Sate Kambing")) harga = hargaMenu[2];
+        else if (nama.equalsIgnoreCase("Ayam Bakar")) harga = hargaMenu[3];
+        else if (nama.equalsIgnoreCase("Lemon Tea")) harga = hargaMenu[4];
+        else if (nama.equalsIgnoreCase("Jus Jeruk")) harga = hargaMenu[5];
+        else if (nama.equalsIgnoreCase("Kopi Hitam")) harga = hargaMenu[6];
+        else if (nama.equalsIgnoreCase("Air Mineral")) harga = hargaMenu[7];
+        else {
+            // Pesan error jika nama tidak ditemukan
+            System.out.println("⚠️  Menu \"" + nama + "\" tidak ditemukan di daftar menu! Pesanan ini dilewati.");
+            return 0;
         }
 
-        // Penawaran Beli Satu Gratis Satu
-        if (costs[4] > 0) {
-            System.out.println("Penawaran (Beli 1 Gratis 1 Minuman): -Rp." + (int) costs[4]);
-        }
-
-        System.out.println("\nTotal Biaya Keseluruhan: Rp." + (int) costs[5]);
-        System.out.println("=====================");
-        System.out.println("Terima kasih telah memesan!");
+        int subtotal = harga * jumlah;
+        System.out.printf("%-20s %-10d Rp%-10d%n", nama, jumlah, subtotal);
+        return subtotal;
     }
 }
+
+
+//latihan:
+//	void tampilkanInfo() {
+//
+//		System.out.println("Nama Menu: "+ nama);
+//		System.out.println("Harga: Rp. "+ harga);
+//		System.out.println("Kategori: "+ kategori);
+//		System.out.println("--------------------------");
+//		
+//	}
+	
+//	void promoDiskon() {
+//		double hargaDiskon = harga * 0.9;
+//		System.out.println("Harga Setelah diskon 10% untuk" + nama + "adalah Rp. " + hargaDiskon);
+//		System.out.println("--------------------------");
+//		
+//	}
+
+//	void hitungTotal (int jumlah) {
+//		double total = harga * jumlah;
+//		System.out.println("Total Harga untuk " + jumlah + " porsi "+ nama + " adalaha Rp" + total);
+//		System.out.println("--------------------------");
+//		
+//	}
+	
+
+	
